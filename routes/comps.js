@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const pool = require("../db_connect");
 
 router.get("/", (req, res, next) => {
-  console.log("endpoint is working");
-  res.status(200).send("this is sent from the server");
+  pool.query("select * from cd_compilations", (err, result) => {
+    res.status(200).send(result.rows);
+  });
 });
 
 module.exports = router;
