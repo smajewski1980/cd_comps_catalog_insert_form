@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --clr-main-font: rgb(255, 112, 255);
+}
+
+body {
+  padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--clr-main-font);
+  background: rgb(15, 15, 15);
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.btn-add-item {
+  cursor: pointer;
+  font: inherit;
+  width: 100%;
+  padding-block: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-top: 1rem;
+  background: inherit;
+  color: inherit;
+  border-color: rgba(255, 112, 255, 0.3);
+  background-color: rgba(255, 112, 255, 0.05);
+}
+
+label {
+  font-family: "cascadia mono", sans-serif;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+input {
+  margin-bottom: 1rem;
+  font-family: "copperplate gothic";
+  font-size: 1.25rem;
+  background-color: rgba(255, 219, 255, 0.774);
+  accent-color: rgb(255, 112, 255);
+  color: hsl(300, 100%, 15%);
+  width: 100%;
+  padding: 0.25rem;
+}
+
+.cds-comps {
+  box-shadow: 0px 0px 10px 5px rgba(255, 112, 255, 0.3);
+  outline: 1px solid grey;
+  padding: 2rem;
+  margin-inline: auto;
+  margin-bottom: 1.5rem;
+  /* text-align: center; */
+  width: 500px;
+  position: relative;
+}
