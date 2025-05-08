@@ -25,6 +25,7 @@ cdsCompsForm.addEventListener("keydown", (e) => {
   } else if (e.key == "Escape") {
     if (editFlag) {
       removeAddedFields();
+      editFlag = false;
     }
   }
 });
@@ -55,13 +56,15 @@ function addNewFields() {
 }
 
 function removeAddedFields() {
-  // keep removing the second to last item until the 4 elements are gone
-  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
-  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
-  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
-  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
-  // keep counter accurate in case removing the fields was the mistake...
-  counter--;
+  if (cdsCompsForm.children.length > 16) {
+    // keep removing the second to last item until the 4 elements are gone
+    cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+    cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+    cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+    cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+    // keep counter accurate in case removing the fields was the mistake...
+    counter--;
+  }
 }
 
 btnAddComp.addEventListener("click", (e) => {
