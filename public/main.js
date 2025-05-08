@@ -5,7 +5,7 @@ const trackNameInput = document.getElementById("cds-comps-tracks-track-name");
 const cdsCompsForm = document.querySelector(".cds-comps");
 const btnAddComp = document.getElementById("btn-add-item-cds-comps");
 // const allTrackInputs = document.querySelectorAll('.track-name')
-
+cdsCompsForm.children[1].focus();
 cdsCompsForm.addEventListener("keypress", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
@@ -13,43 +13,63 @@ cdsCompsForm.addEventListener("keypress", (e) => {
     const activeElem = document.activeElement;
     // need to see if a track name input has focus
     if (activeElem === allTrackInputs[allTrackInputs.length - 1]) {
-      console.log("i think we got it");
       // then add the new elements
       addNewFields();
     }
     return false;
   }
 });
-// trackNameInput.addEventListener("keypress", (e) => {
-//   if (e.key == "Enter") {
-//     console.log("i think this will work");
-//   }
-// });
-
+let counter = 2;
 function addNewFields() {
   const newArtistLabel = artistLabel.cloneNode();
   newArtistLabel.removeAttribute("id");
-  newArtistLabel.innerText = "ARTIST";
+  newArtistLabel.innerText = `${counter} ARTIST`;
   const newArtistInput = artistInput.cloneNode();
   newArtistInput.value = "";
   const newTrackLabel = trackNameLabel.cloneNode();
   newTrackLabel.removeAttribute("id");
-  newTrackLabel.innerText = "TRACK NAME";
+  newTrackLabel.innerText = `${counter} TRACK NAME`;
   const newTrackInput = trackNameInput.cloneNode();
   newTrackInput.value = "";
   cdsCompsForm.insertBefore(newArtistLabel, btnAddComp);
   cdsCompsForm.insertBefore(newArtistInput, btnAddComp).focus();
   cdsCompsForm.insertBefore(newTrackLabel, btnAddComp);
   cdsCompsForm.insertBefore(newTrackInput, btnAddComp);
+  counter++;
 }
 
 btnAddComp.addEventListener("click", (e) => {
-  // e.preventDefault();
-  cdsCompsForm.querySelectorAll("input").forEach((input) => {
-    console.log(`${input.name}:${input.value}`);
-    // we have to assemble the object for the post request body
+  e.preventDefault();
+  // we have to assemble the object for the post request body
+  const formInputs = cdsCompsForm.querySelectorAll("input");
+  const newCompObj = {
+    title: formInputs[0].value,
+    year: formInputs[1].value,
+    location: formInputs[2].value,
+    tracks: [],
+  };
+
+  for (let i = 3; i < formInputs.length; i += 2) {
+    const newSong = {
+      artist: formInputs[i].value,
+      track_name: formInputs[i + 1].value,
+    };
+    newCompObj.tracks.push(newSong);
+  }
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newCompObj),
+  };
+
+  fetch("/comps", options).then((res) => {
+    if (!res.ok) {
+      console.log("shit went wrong");
+    }
+    if (res.ok) {
+      location.reload();
+    }
   });
-  // cdsCompsForm.reset();
-  // cdsCompsForm.children[0].focus();
-  // console.log(trackNameInput.value);
 });

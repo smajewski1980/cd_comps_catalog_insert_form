@@ -9,11 +9,11 @@
   </head>
   <body>
     <h3>Add CD Compilation to Catalog Form</h3>
-    <form action="#" class="cds-comps" name="cds-comps" autocomplete="off">
+    <form action="/comps" class="cds-comps" name="cds-comps" autocomplete="off">
       <label for="cds-comps-title">TITLE</label>
-      <input type="text" name="title" id="cds-comps-title" /><br />
+      <input type="text" name="title" id="cds-comps-title" required /><br />
       <label for="cds-comps-year">YEAR</label>
-      <input type="text" name="year" id="cds-comps-year" /><br />
+      <input type="text" name="year" id="cds-comps-year" required /><br />
       <label for="cds-comps-location">LOCATION</label>
       <input
         type="text"
@@ -23,7 +23,12 @@
       /><br />
 
       <label for="cds-comps-tracks-artist" id="comp-artist-label">ARTIST</label>
-      <input type="text" name="artist" id="cds-comps-tracks-artist" /><br />
+      <input
+        type="text"
+        name="artist"
+        id="cds-comps-tracks-artist"
+        required
+      /><br />
       <label for="cds-comps-tracks-track-name" id="comp-track-label"
         >TRACK NAME</label
       >
@@ -32,6 +37,7 @@
         name="track_name"
         id="cds-comps-tracks-track-name"
         class="track-name"
+        required
       /><br />
 
       <button id="btn-add-item-cds-comps" class="btn-add-item">ADD ITEM</button>
