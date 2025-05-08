@@ -4,12 +4,13 @@ const trackNameLabel = document.querySelector("#comp-track-label");
 const trackNameInput = document.getElementById("cds-comps-tracks-track-name");
 const cdsCompsForm = document.querySelector(".cds-comps");
 const btnAddComp = document.getElementById("btn-add-item-cds-comps");
-
+// editFlag will be the switch for deleting a set of song fields added in error
+let editFlag = false;
 cdsCompsForm.children[1].focus();
 
 // if enter is hit while focused in a track field,
 // another artist and track field shows up to enter next track
-cdsCompsForm.addEventListener("keypress", (e) => {
+cdsCompsForm.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
     const allTrackInputs = document.querySelectorAll(".track-name");
@@ -18,8 +19,13 @@ cdsCompsForm.addEventListener("keypress", (e) => {
     if (activeElem === allTrackInputs[allTrackInputs.length - 1]) {
       // then add the new elements
       addNewFields();
+      editFlag = true;
     }
     return false;
+  } else if (e.key == "Escape") {
+    if (editFlag) {
+      removeAddedFields();
+    }
   }
 });
 
@@ -46,6 +52,16 @@ function addNewFields() {
   cdsCompsForm.insertBefore(newTrackLabel, btnAddComp);
   cdsCompsForm.insertBefore(newTrackInput, btnAddComp);
   counter++;
+}
+
+function removeAddedFields() {
+  // keep removing the second to last item until the 4 elements are gone
+  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+  cdsCompsForm.children[cdsCompsForm.children.length - 2].remove();
+  // keep counter accurate in case removing the fields was the mistake...
+  counter--;
 }
 
 btnAddComp.addEventListener("click", (e) => {
