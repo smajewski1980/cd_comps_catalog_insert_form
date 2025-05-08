@@ -4,8 +4,11 @@ const trackNameLabel = document.querySelector("#comp-track-label");
 const trackNameInput = document.getElementById("cds-comps-tracks-track-name");
 const cdsCompsForm = document.querySelector(".cds-comps");
 const btnAddComp = document.getElementById("btn-add-item-cds-comps");
-// const allTrackInputs = document.querySelectorAll('.track-name')
+
 cdsCompsForm.children[1].focus();
+
+// if enter is hit while focused in a track field,
+// another artist and track field shows up to enter next track
 cdsCompsForm.addEventListener("keypress", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
@@ -19,18 +22,25 @@ cdsCompsForm.addEventListener("keypress", (e) => {
     return false;
   }
 });
+
+// counter to place a number in the UI before the added fields
 let counter = 2;
 function addNewFields() {
+  // clone the first artist and track label and input nodes
   const newArtistLabel = artistLabel.cloneNode();
-  newArtistLabel.removeAttribute("id");
-  newArtistLabel.innerText = `${counter} ARTIST`;
   const newArtistInput = artistInput.cloneNode();
-  newArtistInput.value = "";
   const newTrackLabel = trackNameLabel.cloneNode();
-  newTrackLabel.removeAttribute("id");
-  newTrackLabel.innerText = `${counter} TRACK NAME`;
   const newTrackInput = trackNameInput.cloneNode();
+  //  remove the id, so there is only one per page
+  newArtistLabel.removeAttribute("id");
+  newTrackLabel.removeAttribute("id");
+  // add the text content
+  newArtistLabel.innerText = `${counter} ARTIST`;
+  newTrackLabel.innerText = `${counter} TRACK NAME`;
+  // clear the input values
+  newArtistInput.value = "";
   newTrackInput.value = "";
+  // insert at the end of form right before the button
   cdsCompsForm.insertBefore(newArtistLabel, btnAddComp);
   cdsCompsForm.insertBefore(newArtistInput, btnAddComp).focus();
   cdsCompsForm.insertBefore(newTrackLabel, btnAddComp);
@@ -40,7 +50,7 @@ function addNewFields() {
 
 btnAddComp.addEventListener("click", (e) => {
   e.preventDefault();
-  // we have to assemble the object for the post request body
+  // assemble the object for the post request body
   const formInputs = cdsCompsForm.querySelectorAll("input");
   const newCompObj = {
     title: formInputs[0].value,
@@ -49,6 +59,7 @@ btnAddComp.addEventListener("click", (e) => {
     tracks: [],
   };
 
+  // no matter how many track are entered, this loop adds them to the tracks array
   for (let i = 3; i < formInputs.length; i += 2) {
     const newSong = {
       artist: formInputs[i].value,
@@ -56,6 +67,7 @@ btnAddComp.addEventListener("click", (e) => {
     };
     newCompObj.tracks.push(newSong);
   }
+
   const options = {
     method: "POST",
     headers: {
