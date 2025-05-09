@@ -85,6 +85,9 @@ btnAddComp.addEventListener("click", (e) => {
       track_name: formInputs[i + 1].value,
     };
     newCompObj.tracks.push(newSong);
+    // with a real entry, it was changing the track order
+    // i dont like that.....
+    console.log(newCompObj);
   }
 
   const options = {

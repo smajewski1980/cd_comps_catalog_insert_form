@@ -32,24 +32,31 @@ router.post("/", (req, res, next) => {
         console.log(result.rows[0].title_id);
         console.log(tracks);
 
-        const titleId = result.rows[0].title_id;
+        const sqlArray = [];
 
-        // going to try looping and banging in one insert after another to see if that works
+        const titleId = result.rows[0].title_id;
+        // have to construct an sql string dynamically since we never know how many tracks are on a disc
+        let sqlString =
+          "insert into cd_compilations_tracks(artist, track_name, title_id) values";
+        // this counter keeps track of the $1, $2 etc in the loop
+        let variableCounter = 1;
         for (let i = 0; i < tracks.length; i++) {
-          const artist = tracks[i].artist;
-          const trackName = tracks[i].track_name;
-          pool.query(
-            "insert into cd_compilations_tracks(artist, track_name, title_id) values($1, $2, $3)",
-            [artist, trackName, titleId],
-            (err, result) => {
-              if (err) {
-                const err = new Error(err);
-                next(err);
-              }
-            }
-          );
-          if (i === tracks.length - 1) return res.status(201).send();
+          sqlString += `($${variableCounter}, $${variableCounter + 1}, $${
+            variableCounter + 2
+          })`;
+          // using variables 3 at a time
+          variableCounter += 3;
+          // push the corresponding data to the data array to match the variables
+          sqlArray.push(tracks[i].artist, tracks[i].track_name, titleId);
         }
+        // send that shit yo...
+        pool.query(sqlString, sqlArray, (err, result) => {
+          if (err) {
+            const error = new Error(err);
+            next(error);
+          }
+        });
+        return res.status(201).send();
       }
     );
   }
