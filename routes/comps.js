@@ -48,6 +48,9 @@ router.post("/", (req, res, next) => {
           variableCounter += 3;
           // push the corresponding data to the data array to match the variables
           sqlArray.push(tracks[i].artist, tracks[i].track_name, titleId);
+          if (i !== tracks.length - 1) {
+            sqlString += ",";
+          }
         }
         // send that shit yo...
         pool.query(sqlString, sqlArray, (err, result) => {
