@@ -6,7 +6,7 @@ const pool = new Pool({
   password: process.env.PASSWORD_DB,
   host: "localhost",
   port: 5432,
-  database: "test_cd_comps_singles_insert",
+  database: "music_collection_catalog",
 });
 
 module.exports = pool;
