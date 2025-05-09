@@ -53,6 +53,7 @@ function addNewFields() {
   cdsCompsForm.insertBefore(newTrackLabel, btnAddComp);
   cdsCompsForm.insertBefore(newTrackInput, btnAddComp);
   counter++;
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function removeAddedFields() {
