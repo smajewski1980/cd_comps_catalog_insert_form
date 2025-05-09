@@ -101,9 +101,11 @@ btnAddComp.addEventListener("click", (e) => {
 
   fetch("/comps", options).then((res) => {
     if (!res.ok) {
+      alert("Shit went wrong!");
       console.log("shit went wrong");
     }
     if (res.ok) {
+      alert("Compilation CD was succesfully added to the database.");
       location.reload();
     }
   });
